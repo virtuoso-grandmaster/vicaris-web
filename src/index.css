@@ -1,0 +1,467 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Refined Minimalist Palette */
+    --background: 60 10% 98%;
+    --foreground: 30 10% 12%;
+    
+    --card: 60 10% 99%;
+    --card-foreground: 30 10% 12%;
+    
+    --popover: 60 10% 99%;
+    --popover-foreground: 30 10% 12%;
+    
+    /* Muted sage green - sophisticated */
+    --primary: 150 25% 35%;
+    --primary-foreground: 60 10% 98%;
+    
+    --secondary: 40 15% 94%;
+    --secondary-foreground: 30 10% 25%;
+    
+    --muted: 40 10% 92%;
+    --muted-foreground: 30 8% 45%;
+    
+    /* Warm terracotta accent */
+    --accent: 20 60% 55%;
+    --accent-foreground: 60 10% 98%;
+    
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 60 10% 98%;
+    
+    --border: 40 10% 88%;
+    --input: 40 10% 88%;
+    --ring: 150 25% 35%;
+    
+    --radius: 0.5rem;
+    
+    /* Custom semantic colors */
+    --ink: 30 10% 12%;
+    --leaf: 150 25% 35%;
+    --leaf-light: 150 30% 95%;
+    --leaf-dark: 150 30% 25%;
+    --ivory: 45 30% 97%;
+    --cream: 40 25% 95%;
+    --sand: 35 20% 88%;
+    --earth: 25 20% 35%;
+    --orange: 20 60% 55%;
+    --orange-light: 25 70% 95%;
+    --warm-white: 45 30% 98%;
+    
+    /* Refined shadows */
+    --shadow-soft: 0 2px 8px -2px hsl(30 10% 12% / 0.06);
+    --shadow-medium: 0 4px 16px -4px hsl(30 10% 12% / 0.08);
+    --shadow-large: 0 8px 32px -8px hsl(30 10% 12% / 0.1);
+    --shadow-glow: 0 0 24px -4px hsl(150 25% 35% / 0.15);
+    
+    /* Modern shadow scale */
+    --shadow-2xs: 0 1px 2px 0 hsl(30 10% 12% / 0.03);
+    --shadow-xs: 0 1px 3px 0 hsl(30 10% 12% / 0.04);
+    --shadow-sm: 0 2px 6px -1px hsl(30 10% 12% / 0.05);
+    --shadow-md: 0 4px 12px -2px hsl(30 10% 12% / 0.06);
+    --shadow-lg: 0 8px 24px -4px hsl(30 10% 12% / 0.08);
+    --shadow-xl: 0 16px 48px -8px hsl(30 10% 12% / 0.1);
+    --shadow-2xl: 0 24px 64px -12px hsl(30 10% 12% / 0.12);
+    
+    /* Sidebar */
+    --sidebar-background: 60 10% 98%;
+    --sidebar-foreground: 30 10% 12%;
+    --sidebar-primary: 150 25% 35%;
+    --sidebar-primary-foreground: 60 10% 98%;
+    --sidebar-accent: 40 15% 94%;
+    --sidebar-accent-foreground: 30 10% 25%;
+    --sidebar-border: 40 10% 90%;
+    --sidebar-ring: 150 25% 35%;
+
+    /* Charts */
+    --chart-1: 150 25% 35%;
+    --chart-2: 20 60% 55%;
+    --chart-3: 40 25% 65%;
+    --chart-4: 150 30% 50%;
+    --chart-5: 30 10% 45%;
+  }
+
+  .dark {
+    --background: 30 10% 8%;
+    --foreground: 45 20% 95%;
+    
+    --card: 30 10% 10%;
+    --card-foreground: 45 20% 95%;
+    
+    --popover: 30 10% 10%;
+    --popover-foreground: 45 20% 95%;
+    
+    --primary: 150 30% 50%;
+    --primary-foreground: 30 10% 8%;
+    
+    --secondary: 30 10% 15%;
+    --secondary-foreground: 45 20% 90%;
+    
+    --muted: 30 10% 18%;
+    --muted-foreground: 40 10% 60%;
+    
+    --accent: 20 55% 55%;
+    --accent-foreground: 45 20% 95%;
+    
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 45 20% 95%;
+    
+    --border: 30 10% 18%;
+    --input: 30 10% 18%;
+    --ring: 150 30% 50%;
+    
+    --ink: 45 20% 95%;
+    --leaf: 150 30% 50%;
+    --leaf-light: 150 20% 15%;
+    --leaf-dark: 150 35% 40%;
+    --ivory: 30 10% 12%;
+    --cream: 30 10% 10%;
+    --sand: 30 10% 20%;
+    --earth: 25 15% 70%;
+    --orange: 20 55% 55%;
+    --orange-light: 20 30% 15%;
+    --warm-white: 30 10% 10%;
+    
+    --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
+    --shadow-medium: 0 4px 16px -4px hsl(0 0% 0% / 0.4);
+    --shadow-large: 0 8px 32px -8px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 24px -4px hsl(150 30% 50% / 0.2);
+    
+    --sidebar-background: 30 10% 8%;
+    --sidebar-foreground: 45 20% 95%;
+    --sidebar-primary: 150 30% 50%;
+    --sidebar-primary-foreground: 30 10% 8%;
+    --sidebar-accent: 30 10% 15%;
+    --sidebar-accent-foreground: 45 20% 90%;
+    --sidebar-border: 30 10% 18%;
+    --sidebar-ring: 150 30% 50%;
+
+    --chart-1: 150 30% 50%;
+    --chart-2: 20 55% 55%;
+    --chart-3: 40 20% 55%;
+    --chart-4: 150 25% 40%;
+    --chart-5: 30 10% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    font-feature-settings: "rlig" 1, "calt" 1, "kern" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+    @apply tracking-tight text-ink;
+    text-wrap: balance;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-light leading-[1.1];
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl font-light leading-tight;
+  }
+  
+  h3 {
+    @apply text-xl md:text-2xl font-normal leading-snug;
+  }
+
+  p {
+    @apply leading-relaxed text-muted-foreground;
+    text-wrap: pretty;
+  }
+  
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-ink;
+  }
+}
+
+@layer components {
+  /* Font utilities */
+  .font-serif {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .font-sans {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Container */
+  .container-vicaris {
+    @apply max-w-5xl mx-auto px-6 md:px-8;
+  }
+  
+  .container-narrow {
+    @apply max-w-3xl mx-auto px-6 md:px-8;
+  }
+  
+  /* Section spacing */
+  .section-padding {
+    @apply py-20 md:py-28 lg:py-32;
+  }
+
+  .section-padding-sm {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+  
+  /* Refined card styles */
+  .card-minimal {
+    @apply bg-card rounded-xl border border-border/50 p-6 md:p-8;
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .card-minimal:hover {
+    @apply border-border shadow-md;
+  }
+  
+  .card-elevated {
+    @apply bg-card rounded-2xl shadow-soft p-6 md:p-8;
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .card-elevated:hover {
+    @apply shadow-medium -translate-y-0.5;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+    @apply hover:-translate-y-1 hover:shadow-medium;
+  }
+
+  .card-modern {
+    @apply bg-card rounded-2xl overflow-hidden shadow-soft;
+    @apply border border-border/50;
+  }
+  
+  /* Glass effect - subtle */
+  .glass {
+    @apply bg-background/80 backdrop-blur-md border border-border/30;
+  }
+  
+  /* Badge styles */
+  .badge-minimal {
+    @apply inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium tracking-wide uppercase;
+    @apply bg-muted text-muted-foreground;
+  }
+  
+  .badge-primary {
+    @apply inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium tracking-wide uppercase;
+    @apply bg-leaf-light text-leaf-dark;
+  }
+
+  .badge-accent {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    @apply bg-orange-light text-orange;
+  }
+  
+  /* Button refinements */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-full;
+    @apply bg-primary text-primary-foreground font-medium;
+    @apply transition-all duration-200 ease-out;
+    @apply hover:bg-primary/90 hover:shadow-md;
+  }
+  
+  .btn-accent {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-full;
+    @apply bg-accent text-accent-foreground font-medium;
+    @apply transition-all duration-200 ease-out;
+    @apply hover:bg-accent/90 hover:shadow-md;
+  }
+  
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-full;
+    @apply border border-primary text-primary font-medium;
+    @apply transition-all duration-200 ease-out;
+    @apply hover:bg-primary hover:text-primary-foreground;
+  }
+  
+  /* Decorative elements */
+  .decorative-line {
+    @apply h-px bg-gradient-to-r from-transparent via-border to-transparent;
+  }
+  
+  .decorative-dot {
+    @apply w-1 h-1 rounded-full bg-primary/40;
+  }
+
+  .decorative-circle {
+    @apply absolute rounded-full bg-primary/5;
+    filter: blur(60px);
+  }
+
+  .section-divider {
+    @apply w-12 h-0.5 bg-primary/30 rounded-full mx-auto;
+  }
+  
+  /* Image treatments */
+  .image-minimal {
+    @apply rounded-xl overflow-hidden;
+  }
+  
+  .image-soft {
+    @apply rounded-2xl overflow-hidden shadow-soft;
+  }
+
+  .image-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(180deg, transparent 0%, transparent 50%, rgba(0,0,0,0.5) 100%);
+  }
+  
+  /* Link styles */
+  .link-underline {
+    @apply relative inline-block;
+  }
+  
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-px bg-current;
+    @apply origin-left scale-x-0 transition-transform duration-300;
+  }
+  
+  .link-underline:hover::after {
+    @apply scale-x-100;
+  }
+  
+  /* Dividers */
+  .divider {
+    @apply border-t border-border/50;
+  }
+  
+  .divider-thick {
+    @apply border-t-2 border-border;
+  }
+
+  /* Text utilities */
+  .text-ink {
+    color: hsl(var(--ink));
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Background utilities */
+  .bg-ivory {
+    background-color: hsl(var(--ivory));
+  }
+
+  .bg-cream {
+    background-color: hsl(var(--cream));
+  }
+
+  .bg-leaf-light {
+    background-color: hsl(var(--leaf-light));
+  }
+
+  .bg-warm-white {
+    background-color: hsl(var(--warm-white));
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--leaf-dark)) 100%);
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply relative overflow-hidden rounded-xl p-6;
+    @apply bg-card border border-border/50;
+  }
+
+  /* Quote styling */
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    line-height: 1;
+    color: hsl(var(--primary) / 0.15);
+  }
+
+  /* Pattern overlay */
+  .pattern-dots {
+    background-image: radial-gradient(hsl(var(--primary) / 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Animations */
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Staggered animations */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+}
+
+@layer utilities {
+  /* Transition */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  /* Focus ring for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Scroll snap */
+  .scroll-snap-x {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-snap-item {
+    scroll-snap-align: start;
+  }
+}
