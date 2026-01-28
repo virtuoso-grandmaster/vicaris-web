@@ -3,8 +3,15 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Phone, Calendar, ExternalLink, Share2 } from "lucide-react";
+import { ArrowLeft, Phone, Calendar, ExternalLink, Share2, CreditCard } from "lucide-react";
 import { useProduct, useRelatedProducts } from "@/hooks/useProducts";
+import { PaymentModal } from "@/components/PaymentModal";
+import { useState } from "react";
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+// Initialize Stripe
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '');
 
 interface ProductSize {
   name: string;
@@ -15,6 +22,7 @@ const ShopeeDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: product, isLoading, error } = useProduct(slug || '');
   const { data: relatedProducts = [] } = useRelatedProducts(product?.id || '');
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -189,20 +197,15 @@ const ShopeeDetail = () => {
                   </div>
                 </div>
 
-                {/* Shopee link */}
-                <a
-                  href={product.shopee_link || "https://shopee.vn/vicaris_shop"}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {/* Payment Button */}
+                <Button
+                  size="lg"
+                  onClick={() => setIsPaymentModalOpen(true)}
+                  className="w-full gap-2 bg-leaf hover:bg-leaf-dark text-white"
                 >
-                  <Button
-                    size="lg"
-                    className="w-full gap-2 bg-[#EE4D2D] text-white hover:bg-[#D73211]"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Mua trên Shopee
-                  </Button>
-                </a>
+                  <CreditCard className="w-4 h-4" />
+                  Thanh toán ngay
+                </Button>
               </motion.div>
             </div>
           </div>
@@ -269,6 +272,17 @@ const ShopeeDetail = () => {
         </section>
       </main>
       <Footer />
+      <Elements stripe={stripePromise}>
+        <PaymentModal
+          product={product}
+          isOpen={isPaymentModalOpen}
+          onClose={() => setIsPaymentModalOpen(false)}
+          onSuccess={() => {
+            setIsPaymentModalOpen(false);
+            // Redirect to thank you page or show success message
+          }}
+        />
+      </Elements>
     </div>
   );
 };

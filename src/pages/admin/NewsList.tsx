@@ -11,6 +11,7 @@ interface NewsItem {
   is_featured: boolean | null;
   is_published: boolean | null;
   published_at: string | null;
+  image_url: string | null;
 }
 
 const NewsList = () => {
@@ -20,7 +21,7 @@ const NewsList = () => {
   const fetchNews = async () => {
     const { data, error } = await supabase
       .from('news')
-      .select('id, title, category_label, is_featured, is_published, published_at')
+      .select('id, title, category_label, is_featured, is_published, published_at, image_url')
       .order('created_at', { ascending: false });
     
     if (!error && data) {
@@ -68,6 +69,7 @@ const NewsList = () => {
         <table className="w-full">
           <thead className="bg-muted/50 border-b border-border">
             <tr>
+              <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Ảnh</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Tiêu đề</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Danh mục</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Trạng thái</th>
@@ -90,6 +92,19 @@ const NewsList = () => {
             ) : (
               news.map((item) => (
                 <tr key={item.id} className="hover:bg-muted/30">
+                  <td className="px-4 py-3">
+                    {item.image_url ? (
+                      <img 
+                        src={item.image_url} 
+                        alt={item.title}
+                        className="w-12 h-12 object-cover rounded-lg border border-border"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                        <span className="text-xs text-muted-foreground">No image</span>
+                      </div>
+                    )}
+                  </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       {item.is_featured && <Star className="w-4 h-4 text-accent fill-accent" />}

@@ -9,6 +9,7 @@ interface Product {
   name: string;
   price_range: string | null;
   is_published: boolean | null;
+  image_url: string | null;
 }
 
 const ProductsList = () => {
@@ -18,7 +19,7 @@ const ProductsList = () => {
   const fetchProducts = async () => {
     const { data, error } = await supabase
       .from('products')
-      .select('id, name, price_range, is_published')
+      .select('id, name, price_range, is_published, image_url')
       .order('created_at', { ascending: false });
     
     if (!error && data) {
@@ -66,6 +67,7 @@ const ProductsList = () => {
         <table className="w-full">
           <thead className="bg-muted/50 border-b border-border">
             <tr>
+              <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Ảnh</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Tên sản phẩm</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Giá</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Trạng thái</th>
@@ -88,6 +90,19 @@ const ProductsList = () => {
             ) : (
               products.map((product) => (
                 <tr key={product.id} className="hover:bg-muted/30">
+                  <td className="px-4 py-3">
+                    {product.image_url ? (
+                      <img 
+                        src={product.image_url} 
+                        alt={product.name}
+                        className="w-12 h-12 object-cover rounded-lg border border-border"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                        <span className="text-xs text-muted-foreground">No image</span>
+                      </div>
+                    )}
+                  </td>
                   <td className="px-4 py-3 text-sm text-ink">{product.name}</td>
                   <td className="px-4 py-3 text-sm text-primary font-medium">
                     {product.price_range || '-'}

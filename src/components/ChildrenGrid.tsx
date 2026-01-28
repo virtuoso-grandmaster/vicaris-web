@@ -6,36 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Heart, Sparkles } from "lucide-react";
 import { useChildren, getProvinces, type Child } from "@/hooks/useChildren";
 
-// Map child codes to their corresponding image files
-const getChildImage = (childCode: string): string => {
-  const imageMap: Record<string, string> = {
-    'BT01': '/assets/children/bt01-the-chung.jpg',
-    'BT04': '/assets/children/bt04-hong-anh.jpg',
-    'BT10': '/assets/children/bt10-thanh-thien.jpg',
-    'BT15': '/assets/children/bt15-ngoc-anh.jpg',
-    'BT16': '/assets/children/bt16-thanh-xuan.jpg',
-    'BT17': '/assets/children/bt17-ho-van-noi.jpg',
-    'BT18': '/assets/children/bt18-tieu-ngoc.jpg',
-    'BT19': '/assets/children/bt19-thanh-an.jpg',
-    'BT20': '/assets/children/bt20-thanh-thuy.jpg',
-    'BT21': '/assets/children/bt21-diem-my.jpg',
-    'BT23': '/assets/children/bt23-ngoc-thuy.jpg',
-    'BT25': '/assets/children/bt25-hong-hanh.jpg',
-    'BT26': '/assets/children/bt26-ngan-ha.jpg',
-    'BT27': '/assets/children/bt27-trong-nghia.jpg',
-    'BT32': '/assets/children/bt32-nhu-y.jpg',
-    'BT33': '/assets/children/bt33-van-vi.jpg',
-    'BT36': '/assets/children/bt36-trong-phuc.jpg',
-    'BT37': '/assets/children/bt37-bao-tran.jpg',
-    'BT38': '/assets/children/bt38-gia-han.jpg',
-    'BT39': '/assets/children/bt39-thuy-linh.jpg',
-    'BT40': '/assets/children/bt40-thanh-truc.jpg',
-    'BT41': '/assets/children/bt41-ngoc-nhi-ngoc-diep.jpg',
-    'BT42': '/assets/children/bt42-hanh-nguyen-tuyet-ngan.jpg',
-  };
-  
-  return imageMap[childCode] || '/placeholder.svg';
-};
 
 const ChildCard = ({
   child,
@@ -46,9 +16,6 @@ const ChildCard = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-  // Use local image from assets folder based on child code
-  const imageUrl = getChildImage(child.code);
 
   return (
     <motion.article
@@ -61,7 +28,7 @@ const ChildCard = ({
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
-          src={imageUrl}
+          src={child.image_url || '/placeholder.svg'}
           alt={child.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />

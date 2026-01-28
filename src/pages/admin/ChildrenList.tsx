@@ -11,6 +11,7 @@ interface Child {
   location: string | null;
   is_new: boolean | null;
   is_published: boolean | null;
+  image_url: string | null;
 }
 
 const ChildrenList = () => {
@@ -20,7 +21,7 @@ const ChildrenList = () => {
   const fetchChildren = async () => {
     const { data, error } = await supabase
       .from('children')
-      .select('id, code, name, location, is_new, is_published')
+      .select('id, code, name, location, is_new, is_published, image_url')
       .order('code');
     
     if (!error && data) {
@@ -68,6 +69,7 @@ const ChildrenList = () => {
         <table className="w-full">
           <thead className="bg-muted/50 border-b border-border">
             <tr>
+              <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Ảnh</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Mã</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Tên</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Địa điểm</th>
@@ -91,6 +93,19 @@ const ChildrenList = () => {
             ) : (
               children.map((child) => (
                 <tr key={child.id} className="hover:bg-muted/30">
+                  <td className="px-4 py-3">
+                    {child.image_url ? (
+                      <img 
+                        src={child.image_url} 
+                        alt={child.name}
+                        className="w-12 h-12 object-cover rounded-lg border border-border"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                        <span className="text-xs text-muted-foreground">No image</span>
+                      </div>
+                    )}
+                  </td>
                   <td className="px-4 py-3 text-sm font-medium text-ink">{child.code}</td>
                   <td className="px-4 py-3 text-sm text-ink">{child.name}</td>
                   <td className="px-4 py-3 text-sm text-muted-foreground">{child.location || '-'}</td>

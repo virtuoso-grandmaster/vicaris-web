@@ -8,27 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Calendar, User, ArrowRight } from "lucide-react";
 import { useNews, useFeaturedNews, useNewsByCategory, type NewsItem } from "@/hooks/useNews";
 
-// Map news slugs to their corresponding image files
-const getNewsImage = (newsSlug: string): string => {
-  const imageMap: Record<string, string> = {
-    'tinh-thuong-am-lai-thay-tue-dat-chia-se': '/assets/news/tinh-thuong-am-lai.jpg',
-    'hoat-dong-trong-mot-nu-cuoi-hong-hanh': '/assets/news/hong-hanh-su-menh.jpg',
-    'hoat-dong-trong-mot-nu-cuoi-thanh-thien': '/assets/news/thanh-thuy-hoan-hao.jpg',
-    'hoat-dong-trong-mot-nu-cuoi-thanh-xuan': '/assets/news/thanh-xuan-thoi-quen.jpg',
-    'co-hoc-tro-ngheo-doi-tuyen-lich-su': '/assets/news/hoc-tro-ngheo-lich-su.jpg',
-    'ca-si-sa-huynh-gay-quy': '/assets/news/ca-si-gay-quy.jpg',
-    'bao-tro-hcm-dong-thap': '/assets/news/bao-tro-dong-thap.jpg',
-    'ban-banh-trung-thu-gay-quy': '/assets/news/banh-trung-thu.jpg',
-    'gian-hang-vesak-2025': '/assets/news/vesak-2025.jpg',
-    'toa-dam-ket-yeu-thuong': '/assets/news/toa-dam-yeu-thuong.jpg',
-    'gieo-hat-an-giang': '/assets/news/gieo-hat-an-giang.jpg',
-    'thu-khoa-7-nam-gieo-hat': '/assets/news/thu-khoa-dai-hoc.jpg',
-  };
-  
-  const imageUrl = imageMap[newsSlug] || '/placeholder.svg';
-  console.log('getNewsImage called with slug:', newsSlug, 'returning:', imageUrl);
-  return imageUrl;
-};
 
 const categoryLabels: Record<string, string> = {
   "goc-chia-se": "Góc chia sẻ",
@@ -56,10 +35,6 @@ const NewsCard = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
-  const imageUrl = getNewsImage(item.slug);
-  
-  // Debug: log the slug and image URL
-  console.log('NewsCard slug:', item.slug, 'imageUrl:', imageUrl);
 
   if (featured) {
     return (
@@ -74,7 +49,7 @@ const NewsCard = ({
           {/* Image */}
           <div className="h-64 md:h-auto overflow-hidden">
             <img
-              src={imageUrl}
+              src={item.image_url || '/placeholder.svg'}
               alt={item.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
@@ -126,7 +101,7 @@ const NewsCard = ({
       {/* Image */}
       <div className="h-48 overflow-hidden">
         <img
-          src={imageUrl}
+          src={item.image_url || '/placeholder.svg'}
           alt={item.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />

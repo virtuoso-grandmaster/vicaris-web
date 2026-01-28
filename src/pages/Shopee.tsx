@@ -8,21 +8,6 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useProducts, type Product } from "@/hooks/useProducts";
 
-// Map product slugs to their corresponding image files
-const getProductImage = (productSlug: string): string => {
-  const imageMap: Record<string, string> = {
-    'tranh-thu-phap-thay-chan-troi-yen-tu': '/assets/shopee/tranh-thu-phap.jpg',
-    'vong-tay-da-gui-tron-yeu-thuong-chan-thanh': '/assets/shopee/vong-da.jpg',
-    'rem-thu-phap': '/assets/shopee/manh-thu-phap.jpg',
-    'do-luu-niem-lang-mai': '/assets/shopee/do-luu-niem.jpg',
-    'non-la-bang-thu-phap-hue': '/assets/shopee/non-la-bang.jpg',
-    'tranh-go-thu-phap-ma-doc-hanh': '/assets/shopee/tranh-go.jpg',
-    'tranh-ve-nghe-thuat': '/assets/shopee/tranh-ve.jpg',
-    'da-nghe-thuat-thu-phap': '/assets/shopee/da-nghe-thuat.jpg',
-  };
-  
-  return imageMap[productSlug] || '/placeholder.svg';
-};
 
 const ProductCard = ({
   product,
@@ -34,7 +19,6 @@ const ProductCard = ({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  const imageUrl = getProductImage(product.slug);
 
   return (
     <motion.article
@@ -47,7 +31,7 @@ const ProductCard = ({
       {/* Image */}
       <div className="aspect-square overflow-hidden">
         <img
-          src={imageUrl}
+          src={product.image_url || '/placeholder.svg'}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
@@ -175,30 +159,6 @@ const Shopee = () => {
           </div>
         </section>
 
-        {/* Shopee CTA */}
-        <section className="py-12 md:py-16 bg-background">
-          <div className="container-vicaris text-center">
-            <h2 className="font-serif text-2xl md:text-3xl text-ink mb-4">
-              Mua hàng trên Shopee
-            </h2>
-            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Ghé thăm gian hàng Vicaris Shopee để xem thêm nhiều sản phẩm và đặt hàng trực tiếp
-            </p>
-            <a
-              href="https://shopee.vn/vicaris_shop"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                size="lg"
-                className="gap-2 bg-[#EE4D2D] text-white hover:bg-[#D73211] px-8 py-6 text-base"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Mở Shopee
-              </Button>
-            </a>
-          </div>
-        </section>
       </main>
       <Footer />
     </div>
