@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Heart } from "lucide-react";
+import { Menu, X, Heart, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoVicaris from "/assets/logo-vicaris.jpg";
+import { useAuth } from "@/hooks/useAuth";
 
 const navLinks = [
   { name: "Trang chủ", path: "/" },
@@ -70,6 +71,7 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
+
 
           {/* CTA & Mobile Menu */}
           <div className="flex items-center gap-4">

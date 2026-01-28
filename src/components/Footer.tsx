@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, Mail, MapPin, Facebook, Youtube, ArrowRight } from "lucide-react";
+import { Heart, Mail, MapPin, Facebook, Youtube, ArrowRight, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoVicaris from "/assets/logo-vicaris.jpg";
 
@@ -56,6 +56,16 @@ const Footer = () => {
             <p className="text-white/50 text-sm leading-relaxed max-w-xs">
               Nuôi dưỡng tương lai trẻ thơ Việt Nam thông qua giáo dục và sự thấu hiểu.
             </p>
+              {/* Admin Link */}
+            <div className="mt-10">
+              <Link
+                to="/admin"
+                className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm"
+              >
+                <Shield className="w-4 h-4" />
+                Quản trị nội dung
+              </Link>
+            </div>
           </div>
 
           {/* Links */}
@@ -97,7 +107,7 @@ const Footer = () => {
             </ul>
             
             {/* Social */}
-            <div className="flex items-center gap-2 mt-5">
+            <div className="flex items-center gap-2 mt-4">
               <a
                 href="https://www.facebook.com/vicarisvietnam"
                 target="_blank"
@@ -117,6 +127,8 @@ const Footer = () => {
                 <Youtube className="w-4 h-4" />
               </a>
             </div>
+
+            
           </div>
         </div>
       </div>
