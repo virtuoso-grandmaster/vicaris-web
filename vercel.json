@@ -1,0 +1,72 @@
+{
+  "rewrites": [
+    {
+      "source": "/admin/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/children",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/children/:id",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/news",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/news/:id",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/products",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/products/:id",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/settings",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sponsorship",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sponsorship/:slug",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/news",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/shopee",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/shopee/:slug",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/donate",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/**",
+      "destination": "/index.html"
+    }
+  ]
+}
