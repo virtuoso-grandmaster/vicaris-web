@@ -11,22 +11,22 @@ import programCompanion from "/assets/program-companion.jpg";
 const programs = [
   {
     image: programLearning,
-    title: "Học tập & Tri thức",
+    title: "Học tập và sức khỏe",
     description: "Mở cánh cửa tri thức cho các em qua sách vở và học phí.",
   },
   {
     image: programNutrition,
-    title: "Dinh dưỡng",
+    title: "Giữ gìn đất Mẹ",
     description: "Những bữa cơm đủ đầy cho các em.",
   },
   {
     image: programHealing,
-    title: "Lắng nghe",
+    title: "Lắng nghe và nuôi dưỡng",
     description: "Hỗ trợ tâm lý giúp các em vượt qua tổn thương.",
   },
   {
     image: programCompanion,
-    title: "Đồng hành",
+    title: "Cùng đi với nhau",
     description: "Sự đồng hành bền bỉ suốt hành trình.",
   },
 ];

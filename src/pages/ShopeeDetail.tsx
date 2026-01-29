@@ -10,6 +10,18 @@ import { useState } from "react";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
+// Image optimization helper
+const getOptimizedImageSrc = (src: string, width: number = 800) => {
+  if (!src || src === '/placeholder.svg') return src;
+  
+  // For Supabase images, add optimization parameters
+  if (src.includes('supabase.co')) {
+    return `${src}?width=${width}&quality=80&format=webp`;
+  }
+  
+  return src;
+};
+
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '');
 
@@ -97,9 +109,14 @@ const ShopeeDetail = () => {
               >
                 <div className="relative rounded-2xl overflow-hidden shadow-lg">
                   <img
-                    src={imageUrl}
+                    src={getOptimizedImageSrc(imageUrl, 800)}
                     alt={product.name}
                     className="w-full aspect-square object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="high"
+                    width="800"
+                    height="800"
                   />
                   <span className="absolute top-4 left-4 bg-leaf text-white px-4 py-2 rounded-full text-sm font-medium">
                     VICARIS SHOPEE
@@ -239,9 +256,13 @@ const ShopeeDetail = () => {
                   >
                     <div className="aspect-square overflow-hidden">
                       <img
-                        src={relatedProduct.image_url || '/placeholder.svg'}
+                        src={getOptimizedImageSrc(relatedProduct.image_url || '/placeholder.svg', 600)}
                         alt={relatedProduct.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        decoding="async"
+                        width="600"
+                        height="600"
                       />
                     </div>
                     <div className="p-4">

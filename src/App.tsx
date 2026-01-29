@@ -9,6 +9,7 @@ import About from "./pages/About";
 import Sponsorship from "./pages/Sponsorship";
 import ChildDetail from "./pages/ChildDetail";
 import News from "./pages/News";
+import NewsDetail from "./pages/NewsDetail";
 import Shopee from "./pages/Shopee";
 import ShopeeDetail from "./pages/ShopeeDetail";
 import Donate from "./pages/Donate";
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/sponsorship" element={<Sponsorship />} />
               <Route path="/sponsorship/:slug" element={<ChildDetail />} />
               <Route path="/news" element={<News />} />
+              <Route path="/news/:slug" element={<NewsDetail />} />
               <Route path="/shopee" element={<Shopee />} />
               <Route path="/shopee/:slug" element={<ShopeeDetail />} />
               <Route path="/donate" element={<Donate />} />

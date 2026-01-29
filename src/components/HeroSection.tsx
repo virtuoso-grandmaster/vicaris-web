@@ -8,7 +8,7 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-[85vh] flex items-center bg-background">
       <div className="container-vicaris relative z-10 py-16 md:py-24">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-8 items-center">
           {/* Content */}
           <div className="order-2 lg:order-1">
             <motion.div
@@ -37,9 +37,7 @@ const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-md"
             >
-              Đồng hành cùng trẻ em đến trường — nuôi dưỡng tương lai qua giáo dục, 
-              dinh dưỡng và sự thấu hiểu.
-            </motion.p>
+              "Hạnh phúc của các con là phẩm vật quý giá nhất Vicaris hiến tặng cho đời."            </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -97,24 +95,24 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="order-1 lg:order-2 relative"
           >
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/5] lg:aspect-[3/4]">
+            <div className="relative w-full h-full rounded-2xl overflow-hidden aspect-[4/5] lg:aspect-[3/4]">
               <img
                 src={heroGieoHat}
                 alt="Gieo hạt Hiểu Thương - Vicaris"
-                className="w-full h-full object-cover"
+                className="w-full h-full"
               />
               {/* Subtle overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-ink/20 via-transparent to-transparent" />
               
-              {/* Quote card */}
+              {/* Quote card
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="glass rounded-xl p-5">
                   <p className="font-serif text-base md:text-lg text-ink leading-relaxed">
-                    "Hạnh phúc của các con là phẩm vật quý giá nhất Vicaris hiến tặng cho đời."
+                    ""
                   </p>
                 </div>
-              </div>
-            </div>
+              </div>*/}
+            </div> 
           </motion.div>
         </div>
       </div>
