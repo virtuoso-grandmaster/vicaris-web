@@ -24,47 +24,49 @@ import NewsForm from "./pages/admin/NewsForm";
 import ProductsList from "./pages/admin/ProductsList";
 import ProductForm from "./pages/admin/ProductForm";
 import Settings from "./pages/admin/Settings";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/sponsorship" element={<Sponsorship />} />
-              <Route path="/sponsorship/:slug" element={<ChildDetail />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/news/:slug" element={<NewsDetail />} />
-              <Route path="/shopee" element={<Shopee />} />
-              <Route path="/shopee/:slug" element={<ShopeeDetail />} />
-              <Route path="/donate" element={<Donate />} />
-              
-              {/* Admin routes */}
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={<Admin />}>
-                <Route index element={<Dashboard />} />
-                <Route path="children" element={<ChildrenList />} />
-                <Route path="children/:id" element={<ChildForm />} />
-                <Route path="news" element={<NewsList />} />
-                <Route path="news/:id" element={<NewsForm />} />
-                <Route path="products" element={<ProductsList />} />
-                <Route path="products/:id" element={<ProductForm />} />
-                <Route path="settings" element={<Settings />} />
-              </Route>
-              
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/sponsorship" element={<Sponsorship />} />
+            <Route path="/sponsorship/:slug" element={<ChildDetail />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:slug" element={<NewsDetail />} />
+            <Route path="/shopee" element={<Shopee />} />
+            <Route path="/shopee/:slug" element={<ShopeeDetail />} />
+            <Route path="/donate" element={<Donate />} />
+
+            {/* Admin routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<Admin />}>
+              <Route index element={<Dashboard />} />
+              <Route path="children" element={<ChildrenList />} />
+              <Route path="children/:id" element={<ChildForm />} />
+              <Route path="news" element={<NewsList />} />
+              <Route path="news/:id" element={<NewsForm />} />
+              <Route path="products" element={<ProductsList />} />
+              <Route path="products/:id" element={<ProductForm />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
+  </QueryClientProvider>
 );
 
 export default App;

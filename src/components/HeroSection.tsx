@@ -95,7 +95,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="order-1 lg:order-2 relative"
           >
-            <div className="relative w-full h-full rounded-2xl overflow-hidden aspect-[4/5] lg:aspect-[3/4]">
+            <div className="relative w-full h-full rounded-2xl overflow-hidden aspect-square">
               <img
                 src={heroGieoHat}
                 alt="Gieo hạt Hiểu Thương - Vicaris"

@@ -25,9 +25,20 @@ const bankInfo = {
 const Donate = () => {
   const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showMomoQR, setShowMomoQR] = useState(false);
+  const [showZaloPayQR, setShowZaloPayQR] = useState(false);
 
   const heroRef = useRef(null);
   const heroInView = useInView(heroRef, { once: true });
+
+  const momoImg =
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZcQPC-zWVyFOu9J2OGl0j2D220D49D0Z7BQ&s";
+  const zaloPayImg =
+    "https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-ZaloPay-Square.png";
+  const momoQR =
+    "https://fuzzyloondesigns.com/cdn/shop/files/RIckRollQRCodeSticker.png?v=1702057914&width=2000";
+  const zaloPayQR =
+    "https://fuzzyloondesigns.com/cdn/shop/files/RIckRollQRCodeSticker.png?v=1702057914&width=2000";
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -54,9 +65,9 @@ const Donate = () => {
                 className="mb-8 flex justify-center"
               >
                 <div className="relative w-20 h-20 flex items-center justify-center">
-                  <img 
-                    src={ensoCircle} 
-                    alt="Enso circle" 
+                  <img
+                    src={ensoCircle}
+                    alt="Enso circle"
                     className="absolute inset-0 w-full h-full opacity-20"
                   />
                   <Heart className="w-8 h-8 text-accent relative z-10" />
@@ -209,15 +220,78 @@ const Donate = () => {
                 </h2>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <button className="p-5 rounded-xl border border-border hover:border-accent/50 transition-all duration-300 text-center">
-                    <p className="text-ink font-medium">MoMo</p>
-                    <p className="text-sm text-muted-foreground">Ví điện tử</p>
+                  <button 
+                    onClick={() => setShowMomoQR(!showMomoQR)}
+                    className="p-8 rounded-xl border border-border hover:border-accent/50 transition-all duration-300 flex flex-row items-center justify-center gap-4 text-center"
+                  >
+                    <img
+                      src={momoImg}
+                      width={48}
+                      height={48}
+                      className="object-contain"
+                      alt="MoMo"
+                    />
+                    <div className="flex flex-col">
+                      <p className="text-ink font-medium">MoMo</p>
+                      <p className="text-sm text-muted-foreground">Ví điện tử</p>
+                    </div>
                   </button>
-                  <button className="p-5 rounded-xl border border-border hover:border-accent/50 transition-all duration-300 text-center">
-                    <p className="text-ink font-medium">ZaloPay</p>
-                    <p className="text-sm text-muted-foreground">Ví điện tử</p>
+
+                  <button 
+                    onClick={() => setShowZaloPayQR(!showZaloPayQR)}
+                    className="p-8 rounded-xl border border-border hover:border-accent/50 transition-all duration-300 flex flex-row items-center justify-center gap-4 text-center"
+                  >
+                    <img
+                      src={zaloPayImg}
+                      width={48}
+                      height={48}
+                      className="object-contain"
+                      alt="ZaloPay"
+                    />
+                    <div className="flex flex-col">
+                      <p className="text-ink font-medium">ZaloPay</p>
+                      <p className="text-sm text-muted-foreground">Ví điện tử</p>
+                    </div>
                   </button>
                 </div>
+
+                {/* QR Code Modals */}
+                {(showMomoQR || showZaloPayQR) && (
+                  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-white rounded-2xl p-6 max-w-md w-full"
+                    >
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="font-serif text-xl text-ink">
+                          {showMomoQR ? "Quét mã MoMo" : "Quét mã ZaloPay"}
+                        </h3>
+                        <button
+                          onClick={() => {
+                            setShowMomoQR(false);
+                            setShowZaloPayQR(false);
+                          }}
+                          className="p-2 hover:bg-sand/50 rounded-lg transition-colors"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <div className="flex justify-center">
+                        <img
+                          src={showMomoQR ? momoQR : zaloPayQR}
+                          alt="QR Code"
+                          className="w-64 h-64 object-contain"
+                        />
+                      </div>
+                      <p className="text-center text-sm text-muted-foreground mt-4">
+                        Quét mã để chuyển khoản
+                      </p>
+                    </motion.div>
+                  </div>
+                )}
               </motion.div>
             </div>
           </div>
