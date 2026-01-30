@@ -6,13 +6,67 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { ArrowLeft, Save, Upload, X, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Save, Upload, X, Plus, Trash2, PlusCircle, Edit, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
+import { CollectionForm } from '@/components/ui/image-uploader';
+import { useCollections } from '@/hooks/useCollections';
+import { useCreateCollection, useUpdateCollection, useDeleteCollection } from '@/hooks/useCollections';
 
 interface ProductSize {
   name: string;
   price: string;
 }
+
+interface CollectionItem {
+  id?: string;
+  name: string;
+  image_url: string;
+  price?: string;
+  sold?: boolean;
+}
+
+const ProductCollectionsList = ({ productId }: { productId: string }) => {
+  const { data: collections = [], isLoading, error } = useCollections(productId);
+
+  if (isLoading) {
+    return <p className="text-sm text-muted-foreground">Đang tải bộ sưu tập...</p>;
+  }
+
+  if (error) {
+    return <p className="text-sm text-destructive">Lỗi tải bộ sưu tập: {error.message}</p>;
+  }
+
+  if (collections.length === 0) {
+    return <p className="text-sm text-muted-foreground">Chưa có bộ sưu tập nào cho sản phẩm này.</p>;
+  }
+
+  return (
+    <div className="space-y-3">
+      {collections.map((collection) => (
+        <div key={collection.id} className="flex items-center justify-between p-4 bg-gradient-to-r from-leaf/5 to-transparent border border-leaf/20 rounded-xl hover:shadow-md transition-all duration-200">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-leaf/20 rounded-full flex items-center justify-center">
+              <span className="text-leaf font-semibold text-sm">S</span>
+            </div>
+            <div>
+              <h3 className="font-medium text-ink text-lg">{collection.name}</h3>
+              <p className="text-sm text-muted-foreground">
+                {collection.items && Array.isArray(collection.items) 
+                  ? `${collection.items.length} sản phẩm`
+                  : 'Chưa có sản phẩm nào'}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-leaf font-medium bg-leaf/10 px-2 py-1 rounded-full">
+              {collection.items && Array.isArray(collection.items) ? collection.items.length : 0}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const ProductForm = () => {
   const { id } = useParams<{ id: string }>();
@@ -256,6 +310,33 @@ const ProductForm = () => {
               </p>
             )}
           </div>
+        </div>
+
+        {/* Collections */}
+        <div className="bg-card rounded-xl p-6 border border-border/50 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="font-medium text-lg">Bộ sưu tập sản phẩm</h2>
+            <Button type="button" variant="outline" size="sm" onClick={() => {
+              // Navigate to collections management page
+              if (isEditing) {
+                navigate(`/admin/products/${id}/collections`);
+              } else {
+                toast.info('Vui lòng lưu sản phẩm trước khi thêm bộ sưu tập');
+              }
+            }} className="gap-2">
+              <PlusCircle className="w-4 h-4" />
+              Quản lý bộ sưu tập
+            </Button>
+          </div>
+          
+          {isEditing ? (
+            <ProductCollectionsList productId={id!} />
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Bộ sưu tập giúp quản lý các sản phẩm riêng lẻ thuộc cùng một loại sản phẩm chính.
+              Vui lòng lưu sản phẩm trước khi quản lý bộ sưu tập.
+            </p>
+          )}
         </div>
 
         {/* Settings */}

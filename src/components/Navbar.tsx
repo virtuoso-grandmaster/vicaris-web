@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Heart, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logoVicaris from "/assets/logo-vicaris.jpg";
+import logoVicaris from "/assets/vicaris-main-logo.png";
 import { useAuth } from "@/hooks/useAuth";
 
 const navLinks = [
@@ -46,7 +46,7 @@ const Navbar = () => {
             <img
               src={logoVicaris}
               alt="Vicaris"
-              className="h-10 w-10 object-contain rounded-full"
+              className="h-12 w-12 object-contain rounded-full"
             />
             <div className="hidden sm:block">
               <span className="font-serif text-xl text-ink">

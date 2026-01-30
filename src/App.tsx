@@ -23,6 +23,8 @@ import NewsList from "./pages/admin/NewsList";
 import NewsForm from "./pages/admin/NewsForm";
 import ProductsList from "./pages/admin/ProductsList";
 import ProductForm from "./pages/admin/ProductForm";
+import CollectionsList from "./pages/admin/CollectionsList";
+import CollectionForm from "./pages/admin/CollectionForm";
 import Settings from "./pages/admin/Settings";
 import { ScrollToTop } from "./components/ScrollToTop";
 
@@ -58,6 +60,8 @@ const App = () => (
               <Route path="news/:id" element={<NewsForm />} />
               <Route path="products" element={<ProductsList />} />
               <Route path="products/:id" element={<ProductForm />} />
+              <Route path="products/:productId/collections" element={<CollectionsList />} />
+              <Route path="products/:productId/collections/:collectionId" element={<CollectionForm />} />
               <Route path="settings" element={<Settings />} />
             </Route>
 

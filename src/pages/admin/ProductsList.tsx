@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
-import { Plus, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, EyeOff, PlusCircle } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -133,6 +133,12 @@ const ProductsList = () => {
                         className="p-2 hover:bg-muted rounded-lg transition-colors"
                       >
                         <Edit className="w-4 h-4 text-muted-foreground" />
+                      </Link>
+                      <Link
+                        to={`/admin/products/${product.id}/collections`}
+                        className="p-2 hover:bg-muted rounded-lg transition-colors"
+                      >
+                        <PlusCircle className="w-4 h-4 text-muted-foreground" />
                       </Link>
                       <button
                         onClick={() => deleteProduct(product.id)}

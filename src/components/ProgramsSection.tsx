@@ -3,10 +3,10 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import programLearning from "/assets/program-learning.jpg";
-import programNutrition from "/assets/program-nutrition.jpg";
-import programHealing from "/assets/program-healing.jpg";
-import programCompanion from "/assets/program-companion.jpg";
+import programLearning from "/assets/hoctap-suckhoe.jpg";
+import programNutrition from "/assets/gingiu-datme.jpg";
+import programHealing from "/assets/langnghe-nuoiduong.jpg";
+import programCompanion from "/assets/cungdi-voinhau.jpg";
 
 const programs = [
   {
@@ -76,7 +76,7 @@ const ProgramsSection = () => {
         </div>
 
         {/* Programs grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-rows-2 lg:grid-cols-2 gap-5">
           {programs.map((program, index) => (
             <motion.article
               key={index}
@@ -87,7 +87,7 @@ const ProgramsSection = () => {
             >
               <div className="relative overflow-hidden rounded-xl">
                 {/* Image */}
-                <div className="aspect-[4/5] overflow-hidden">
+                <div className="aspect-[16/9] overflow-hidden">
                   <img
                     src={program.image}
                     alt={program.title}

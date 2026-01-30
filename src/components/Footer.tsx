@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import logoVicaris from "/assets/logo-vicaris.jpg";
 
 const Footer = () => {
+  
   const currentYear = new Date().getFullYear();
+  const establishedYear = 2020;
 
   return (
     <footer className="bg-ink text-white/90">
@@ -136,7 +138,7 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="container-vicaris py-6 border-t border-white/10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-white/40">
-          <p>© {currentYear} Vicaris</p>
+          <p>© {establishedYear} Vicaris</p>
           <p className="flex items-center gap-1">
             Được tạo với <Heart className="w-3 h-3 text-accent" /> tại Việt Nam
           </p>
