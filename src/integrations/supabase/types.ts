@@ -187,6 +187,7 @@ export type Database = {
           items: Json | null
           created_at: string
           updated_at: string
+          order: number | null
         }
         Insert: {
           id?: string
@@ -195,6 +196,7 @@ export type Database = {
           items?: Json | null
           created_at?: string
           updated_at?: string
+          order?: number | null
         }
         Update: {
           id?: string
@@ -203,6 +205,7 @@ export type Database = {
           items?: Json | null
           created_at?: string
           updated_at?: string
+          order?: number | null
         }
         Relationships: [
           {

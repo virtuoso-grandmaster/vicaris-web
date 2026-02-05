@@ -6,11 +6,26 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { ArrowLeft, Save, Upload, X, Plus, Trash2, PlusCircle, Edit, Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, Save, Upload, X, Plus, Trash2, PlusCircle, Edit, Eye, EyeOff, StarIcon, GripVertical } from 'lucide-react';
 import { toast } from 'sonner';
 import { CollectionForm } from '@/components/ui/image-uploader';
 import { useCollections } from '@/hooks/useCollections';
-import { useCreateCollection, useUpdateCollection, useDeleteCollection } from '@/hooks/useCollections';
+import { useCreateCollection, useUpdateCollection, useDeleteCollection, useUpdateCollectionOrder } from '@/hooks/useCollections';
+import { CollectionOrderTest } from '@/components/CollectionOrderTest';
+import {
+  DndContext,
+  DragEndEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface ProductSize {
   name: string;
@@ -25,8 +40,85 @@ interface CollectionItem {
   sold?: boolean;
 }
 
+const SortableCollectionItem = ({ collection, index }: { collection: any; index: number }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: collection.id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`flex items-center justify-between p-4 bg-gradient-to-r from-leaf/5 to-transparent border border-leaf/20 rounded-xl hover:shadow-md transition-all duration-200 ${
+        isDragging ? 'ring-2 ring-leaf/50' : ''
+      }`}
+      {...attributes}
+    >
+      <div className="flex items-center gap-4">
+        <button
+          {...listeners}
+          className="p-2 hover:bg-leaf/20 rounded-full cursor-grab active:cursor-grabbing"
+          aria-label="Kéo để sắp xếp"
+        >
+          <GripVertical className="w-4 h-4 text-leaf" />
+        </button>
+        <div className="w-12 h-12 bg-leaf/20 rounded-full flex items-center justify-center">
+          <span className="text-leaf font-semibold text-sm">S</span>
+        </div>
+        <div>
+          <h3 className="font-medium text-ink text-lg">{collection.name}</h3>
+          <p className="text-sm text-muted-foreground">
+            {collection.items && Array.isArray(collection.items) 
+              ? `${collection.items.length} sản phẩm`
+              : 'Chưa có sản phẩm nào'}
+          </p>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-leaf font-medium bg-leaf/10 px-2 py-1 rounded-full">
+          {collection.items && Array.isArray(collection.items) ? collection.items.length : 0}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 const ProductCollectionsList = ({ productId }: { productId: string }) => {
   const { data: collections = [], isLoading, error } = useCollections(productId);
+  const updateCollectionOrder = useUpdateCollectionOrder();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = collections.findIndex((col) => col.id === active.id);
+      const newIndex = collections.findIndex((col) => col.id === over?.id);
+
+      const newCollections = arrayMove(collections, oldIndex, newIndex);
+      
+      // Update order in database
+      const updatedCollections = newCollections.map((collection, index) => ({
+        id: collection.id,
+        order: index,
+      }));
+
+      updateCollectionOrder.mutate(updatedCollections);
+    }
+  };
 
   if (isLoading) {
     return <p className="text-sm text-muted-foreground">Đang tải bộ sưu tập...</p>;
@@ -41,30 +133,15 @@ const ProductCollectionsList = ({ productId }: { productId: string }) => {
   }
 
   return (
-    <div className="space-y-3">
-      {collections.map((collection) => (
-        <div key={collection.id} className="flex items-center justify-between p-4 bg-gradient-to-r from-leaf/5 to-transparent border border-leaf/20 rounded-xl hover:shadow-md transition-all duration-200">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-leaf/20 rounded-full flex items-center justify-center">
-              <span className="text-leaf font-semibold text-sm">S</span>
-            </div>
-            <div>
-              <h3 className="font-medium text-ink text-lg">{collection.name}</h3>
-              <p className="text-sm text-muted-foreground">
-                {collection.items && Array.isArray(collection.items) 
-                  ? `${collection.items.length} sản phẩm`
-                  : 'Chưa có sản phẩm nào'}
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-leaf font-medium bg-leaf/10 px-2 py-1 rounded-full">
-              {collection.items && Array.isArray(collection.items) ? collection.items.length : 0}
-            </span>
-          </div>
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <SortableContext items={collections.map(c => c.id)} strategy={verticalListSortingStrategy}>
+        <div className="space-y-3">
+          {collections.map((collection, index) => (
+            <SortableCollectionItem key={collection.id} collection={collection} index={index} />
+          ))}
         </div>
-      ))}
-    </div>
+      </SortableContext>
+    </DndContext>
   );
 };
 
@@ -199,7 +276,6 @@ const ProductForm = () => {
       toast.error('Lỗi: ' + error.message);
     } else {
       toast.success(isEditing ? 'Đã cập nhật' : 'Đã thêm mới');
-      navigate('/admin/products');
     }
   };
 
@@ -324,13 +400,36 @@ const ProductForm = () => {
                 toast.info('Vui lòng lưu sản phẩm trước khi thêm bộ sưu tập');
               }
             }} className="gap-2">
-              <PlusCircle className="w-4 h-4" />
+              <StarIcon className="w-4 h-4" />
               Quản lý bộ sưu tập
             </Button>
           </div>
           
           {isEditing ? (
-            <ProductCollectionsList productId={id!} />
+            <div 
+              className="space-y-4"
+              // Prevent form submission events but allow drag operations
+              onMouseDown={(e) => {
+                // Only prevent form submission, not drag operations
+                e.stopPropagation();
+              }}
+              onMouseUp={(e) => {
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+              // Don't prevent pointer events - they're needed for drag & drop
+            >
+              <ProductCollectionsList productId={id!} />
+              
+              {/* Diagnostic component to test ordering */}
+              <div className="mt-6 border-t pt-6">
+                <h3 className="font-medium text-lg mb-4">Kiểm tra thứ tự bộ sưu tập</h3>
+                <CollectionOrderTest productId={id!} />
+              </div>
+            </div>
           ) : (
             <p className="text-sm text-muted-foreground">
               Bộ sưu tập giúp quản lý các sản phẩm riêng lẻ thuộc cùng một loại sản phẩm chính.

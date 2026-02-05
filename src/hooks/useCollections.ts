@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
+import { toast } from 'sonner';
 
 export type CollectionItem = {
   id?: string;
@@ -20,7 +21,7 @@ export const useCollections = (productId: string) => {
         .from('shopee_collections')
         .select('*')
         .eq('product_id', productId)
-        .order('created_at', { ascending: false });
+        .order('order', { ascending: true })
       
       if (error) throw error;
       return data as ShopeeCollection[];
@@ -79,6 +80,7 @@ export const useUpdateCollection = () => {
       id: string;
       name: string;
       items?: CollectionItem[];
+      order?: number;
     }) => {
       const { data, error } = await supabase
         .from('shopee_collections')
@@ -94,6 +96,54 @@ export const useUpdateCollection = () => {
       queryClient.invalidateQueries({ queryKey: ['collections', data?.product_id] });
       queryClient.invalidateQueries({ queryKey: ['collections'] });
       queryClient.invalidateQueries({ queryKey: ['collection', data?.id] });
+    }
+  });
+};
+
+export const useUpdateCollectionOrder = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (collections: Array<{
+      id: string;
+      order: number;
+    }>) => {
+      // Update the order for each collection individually
+      const updates = await Promise.all(collections.map(async (collection) => {
+        const { data: collectionData, error: fetchError } = await supabase
+          .from('shopee_collections')
+          .select('product_id, name')
+          .eq('id', collection.id)
+          .single();
+        
+        if (fetchError) throw fetchError;
+        
+        return {
+          id: collection.id,
+          order: collection.order,
+          product_id: collectionData.product_id,
+          name: collectionData.name
+        };
+      }));
+      
+      const { error: updateError } = await supabase
+        .from('shopee_collections')
+        .upsert(updates, { onConflict: 'id' });
+      
+      if (updateError && !updateError.message.includes('column "order" does not exist')) {
+        throw updateError;
+      }
+      return collections;
+    },
+    onSuccess: (collections, variables, context) => {
+      // Find the product_id from the first collection to invalidate the correct query
+      if (collections.length > 0) {
+        const firstCollection = collections[0];
+        queryClient.invalidateQueries({ queryKey: ['collections', firstCollection.id] });
+      }
+      queryClient.invalidateQueries({ queryKey: ['collections'] });
+      // Don't navigate away - just show success toast
+      toast.success('Đã cập nhật thứ tự bộ sưu tập');
     }
   });
 };

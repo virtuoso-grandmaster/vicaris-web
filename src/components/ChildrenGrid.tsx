@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart, Sparkles } from "lucide-react";
 import { useChildren, getProvinces, type Child } from "@/hooks/useChildren";
@@ -94,12 +94,21 @@ const ChildCard = ({
 
 const ChildrenGrid = () => {
   const headerRef = useRef(null);
-  const headerInView = useInView(headerRef, { once: true });
+  const headerInView = useInView(headerRef, { 
+    once: true, 
+    margin: "-100px"
+  });
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [showNewOnly, setShowNewOnly] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const { data: children = [], isLoading } = useChildren();
   const provinces = getProvinces(children);
+
+  // Ensure component is mounted before starting animations
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const filteredChildren = children.filter((child) => {
     if (selectedProvince && child.location !== selectedProvince) return false;
@@ -124,8 +133,12 @@ const ChildrenGrid = () => {
         <motion.div
           ref={headerRef}
           initial={{ opacity: 0, y: 30 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          animate={isMounted && headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ 
+            duration: 1, 
+            ease: [0.16, 1, 0.3, 1],
+            delay: 0.1
+          }}
           className="text-center mb-12"
         >
           <h2 className="font-serif text-4xl md:text-5xl text-ink mb-4">

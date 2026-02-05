@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const Sponsorship = () => {
   const heroRef = useRef(null);
@@ -14,6 +14,19 @@ const Sponsorship = () => {
 
   const videoRef = useRef(null);
   const videoInView = useInView(videoRef, { once: true, margin: "-100px" });
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  // Preconnect to YouTube for better performance
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'preconnect';
+    link.href = 'https://www.youtube.com';
+    document.head.appendChild(link);
+  }, []);
+
+  const handleVideoLoad = () => {
+    setIsVideoLoaded(true);
+  };
 
   return (
     <div className="min-h-screen bg-background">

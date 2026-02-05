@@ -38,6 +38,7 @@ export const useProduct = (slug: string) => {
         .from('shopee_collections')
         .select('*')
         .eq('product_id', productData.id)
+        .order('order', { ascending: true })
         .order('created_at', { ascending: false });
       
       if (collectionsError) throw collectionsError;
